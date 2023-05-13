@@ -5,15 +5,13 @@
 
 int i,j;
 
-void receiver(int b[10],int k)
+void receiver(int b[100],int k, int checksum)
 {
-    int checksum,sum=0;
+    int sum=0;
     printf("\n****RECEIVER****\n");
     for(i=0;i<k;i++)
         sum+=b[i];
-    printf("SUM IS: %d",sum);
-    checksum=~sum;
-    printf("\nRECEIVER's CHECKSUM IS:%d",checksum);
+    printf("SUM IS: %d",sum+checksum);
     int errorDetection = ~(checksum+sum);
     printf("\nERROR DETECTION:%d",errorDetection);
     if(errorDetection==0)
@@ -41,9 +39,12 @@ int main()
             printf("\nENTER THE ELEMENTS OF THE ARRAY:");
             for(i=0;i<m;i++)
             scanf("%d",&a[i]);
-            receiver(a,m);
+            printf("\nENTER THE CHECKSUM:");
+            scanf("%d",&scheck);
+            receiver(a,m,scheck);
         }
         break;
+            
         //Bit stuffing
         case 'b':
         {
@@ -69,13 +70,28 @@ int main()
             printf("\nBefore Bit stuffing :  %s\n", bstr);
         }
         break;
+            
         //Inserting character count code
         case 'c':
         {
             char arr[100]; int x,y;
             printf("\nENTER THE ELEMENTS OF THE ARRAY:");
             scanf("%s",arr);
-            printf("\n Resultant Frame using character count = %d%s\n",strlen(arr)+1,arr);
+            char brr[100];
+            x = 0;
+            for(i=0; i < strlen(arr)+1; i++)
+            {
+                j = arr[i];
+                i++;
+                x++;
+                while(i<j-1)
+                {
+                    brr[i-x] = arr[i];
+                    i++;
+                }
+                i--;
+            }
+            printf("\n Resultant Frame using character count = %s\n",brr);
         }
         break;
         default:
